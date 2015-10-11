@@ -1,0 +1,65 @@
+\documentclass[12pt]{report}
+\usepackage[a4paper,landscape]{geometry}
+\usepackage{tikz}
+
+\renewcommand*{\familydefault}{\sfdefault}
+\renewcommand{\seriesdefault}{\bfdefault}
+
+% \newcommand{\dt}{$\cdot$}
+\newcommand{\dt}{\texttt{\kern-0.5pt\raisebox{0.5ex}{.}}}
+\newcommand{\ds}{\texttt{-}}
+%% \newcommand{\sx}{\texttt{~}}
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{tikzpicture}[level distance=15mm,
+      level/.style={sibling distance=70mm/#1}]
+\tikzstyle{every node}=[align=center]
+\node {E \dt} %
+   child { node {I \dt\dt} 
+      child {node {S \dt\dt\dt} 
+         child {node {H \dt\dt\dt\dt}} 
+         child {node {V \dt\dt\dt\ds}}
+      }
+      child {node {U \dt\dt\ds} 
+         child {node {F \dt\dt\ds\dt}}
+      }
+   }
+   child { node {A \dt\ds} 
+      child { node {R \dt\ds\dt}
+         child { node {L \dt\ds\dt\dt}}
+      }
+      child { node {W \dt\ds\ds}
+         child { node {P \dt\ds\ds\dt}}
+         child { node {J \dt\ds\ds\ds}}
+      } 
+   };
+\end{tikzpicture}
+
+\vspace{2cm}
+
+\begin{tikzpicture}[level distance=15mm,
+      level/.style={sibling distance=120mm/#1}]
+\tikzstyle{every node}=[align=center]
+\node {T \ds} %
+   child { node {N \ds\dt} 
+      child {node {D \ds\dt\dt} 
+         child {node {B \ds\dt\dt\dt}} 
+         child {node {X \ds\dt\dt\ds}}
+      }
+      child {node {K \ds\dt\ds} 
+         child {node {C \ds\dt\ds\dt}}
+         child {node {Y \ds\dt\ds\ds}}
+      }
+   }
+   child { node {M \ds\ds} 
+      child { node {G \ds\ds\dt}
+         child { node {Z \ds\ds\dt\dt}}
+         child { node {Q \ds\ds\dt\ds}}
+      }
+      child { node {O \ds\ds\ds}
+      } 
+   };
+\end{tikzpicture}
+\end{document}
