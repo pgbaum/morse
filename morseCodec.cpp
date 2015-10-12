@@ -40,24 +40,30 @@ char MorseCodec::decode( const Signal *ps, int length, const Signal **next )
       return 0;
 
    Encoded_type enc( 1 );
-   int read = 0;
 
-   // skip white speace at the beginning
-   while( read < length && ps[read] == SPACE )
-      read++;
-   if( read > 4 )
+   if( ps[0] == MorseCodec::WORD_SPACE )
    {
       if( next )
-         *next = ps + read;
+         *next = ps + 1;
       return ' ';
    }
+
+   int read = 0;
+   // skip white speace at the beginning
+   while( read < length && (ps[read] == LETTER_SPACE || ps[read] == DOT_SPACE) )
+      read++;
 
    for( ; read < length; ++read )
    {
       switch( ps[read] )
       {
          case NONE:
-         case SPACE:
+         case WORD_SPACE:
+         case LETTER_SPACE:
+                     goto exitLoop;
+                     break;
+         case DOT_SPACE:
+                     // do nothing
                      break;
          case DOT:   enc <<= 1;
                      break;
@@ -76,7 +82,8 @@ char MorseCodec::decode( const Signal *ps, int length, const Signal **next )
                switch( ps[read] )
                {
                   case NONE:
-                  case SPACE:
+                  case WORD_SPACE:
+                  case LETTER_SPACE:
                               *next = ps + read + 1;
                               break;
                   default:    ;
@@ -86,6 +93,7 @@ char MorseCodec::decode( const Signal *ps, int length, const Signal **next )
       }
    }
 
+exitLoop:
    if( next )
       *next = ps + read;
    const int idx = enc - 2;
@@ -128,8 +136,7 @@ std::vector<MorseCodec::Signal> MorseCodec::encode( char c )
 
    if( c == ' ' )
    {
-      return std::vector<Signal>(
-            { SPACE, SPACE, SPACE, SPACE, SPACE, SPACE } );
+      return std::vector<Signal>( { WORD_SPACE } );
    }
 
    std::vector<Signal> ret;
@@ -158,10 +165,14 @@ std::string MorseCodec::toString( const Signal *ps, int length )
    {
       switch( *ps )
       {
-         case DASH:     ret.push_back( '_' ); break;
-         case DOT:      ret.push_back( '.' ); break;
-         case SPACE:    ret.push_back( ' ' ); break;
-         case NONE:     break;
+         case DASH:         ret.push_back( '_' ); break;
+         case DOT:          ret.push_back( '.' ); break;
+         case LETTER_SPACE: ret.push_back( ' ' ); break;
+         case WORD_SPACE:   ret.push_back( ' ' );
+                            ret.push_back( ' ' );
+                            ret.push_back( ' ' ); break;
+         case DOT_SPACE:    break;
+         case NONE:         return ret;
       }
       --length;
       ++ps;

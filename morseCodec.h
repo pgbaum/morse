@@ -13,7 +13,7 @@ public:
     * That means that at the end of a character there have to be 2 SPACE
     * and at the end of word there have to be 6 SPACE
     */
-   typedef enum { NONE, DASH, DOT, SPACE } Signal;
+   typedef enum { NONE, DASH, DOT, DOT_SPACE, LETTER_SPACE, WORD_SPACE } Signal;
    static const char invalidChar = CHAR_MAX;
 
    static char decode( const Signal *ps, int length, const Signal **next );
