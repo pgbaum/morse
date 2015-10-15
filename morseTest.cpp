@@ -1,8 +1,10 @@
 
 #include "morseCodec.h"
+#include "morseReceiver.h"
 #include <iostream>
+#include <thread>
 
-void testOK( char c )
+void testCodecOK( char c )
 {
    std::vector<MorseCodec::Signal> signal = MorseCodec::encode( c );
    std::cout << '\'' << c << "': ";
@@ -26,10 +28,55 @@ void testOK( char c )
    std::cout << '\n';
 }
 
+void testCodec( )
+{
+   std::cout << "Codec test\n";
+   testCodecOK( ' ' );
+   for( char c = 'A';  c <= 'Z'; ++c )
+      testCodecOK( c );
+}
+
+void testReceiverOK( char c )
+{
+   std::cout << '\'' << c << "': ";
+   MorseReceiver mr;
+   const int ms = mr.getTickTime();
+
+   for( auto s : MorseCodec::encode( c ) )
+   {
+      mr.setState( 1 );
+      const int duration = (s == MorseCodec::DASH) ? 3 * ms : ms;
+      std::this_thread::sleep_for( std::chrono::milliseconds( duration ) );
+      mr.setState( 0 );
+      std::this_thread::sleep_for( std::chrono::milliseconds( ms ) );
+   }
+   std::this_thread::sleep_for( std::chrono::milliseconds( 2 * ms ) );
+   std::vector<MorseCodec::Signal> sig;
+   for( auto dec : mr.getDecoded() )
+      sig.push_back( dec.first );
+
+   std::cout << '\'' << MorseCodec::toString( sig ) << "' ";
+
+   const char cDec = MorseCodec::decode( sig, NULL );
+   if( cDec == c )
+      std::cout << "OK";
+   else
+      std::cout << "could not decode  != '" << cDec << "'";
+
+   std::cout << '\n';
+}
+void testReceiver( )
+{
+   std::cout << "Receiver test\n";
+   for( char c = 'A';  c <= 'Z'; ++c )
+      testReceiverOK( c );
+}
+
 int main( void )
 {
-   testOK( ' ' );
-   for( char c = 'A';  c <= 'Z'; ++c )
-      testOK( c );
+   testCodec();
+   std::cout << '\n';
+   testReceiver();
+
    return 0;
 }
