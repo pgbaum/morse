@@ -1,5 +1,7 @@
 #include "morseReceiver.h"
 
+#include <iostream>
+
 namespace
 {
    using TimePoint = std::chrono::time_point<std::chrono::steady_clock>;
@@ -49,8 +51,19 @@ bool MorseReceiver::isOn( void ) const
    return stateIsOn;
 }
 
-void MorseReceiver::setState( bool on )
+bool MorseReceiver::isCharReady( void ) const
 {
+   // either a char has been detected, or the current off-state is longer
+   // than a LETTER_SPACE
+   return charIsReady
+      || (!isOn() && std::chrono::steady_clock::now()
+            >= timeStateChanged
+            + std::chrono::milliseconds( getCharSpaceTime() ) );
+}
+
+std::pair<MorseCodec::Signal,float> MorseReceiver::setState( bool on )
+{
+   std::pair<MorseCodec::Signal,float> sig;
    if( on != stateIsOn )
    {
       auto now = std::chrono::steady_clock::now();
@@ -59,18 +72,19 @@ void MorseReceiver::setState( bool on )
       {
          auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(
                now - timeStateChanged );
-         auto sig = decodeToSignal( (int)diff.count(), on == false,
+         sig = decodeToSignal( (int)diff.count(), on == false,
                tickTime );
          if( !charIsReady )
          {
             charIsReady = (sig.first == MorseCodec::LETTER_SPACE
-                  || sig.first == MorseCodec::LETTER_SPACE);
+                  || sig.first == MorseCodec::WORD_SPACE);
          }
          signals.push_back( sig );
       }
       timeStateChanged = now;
       stateIsOn = on;
    }
+   return sig;
 }
 
 void MorseReceiver::setTickTime( int ms )
@@ -83,11 +97,17 @@ int MorseReceiver::getTickTime( void ) const
    return tickTime;
 }
 
+int MorseReceiver::getCharSpaceTime( void ) const
+{
+   return 3 * tickTime;
+}
+
 std::vector<std::pair<MorseCodec::MorseCodec::Signal,float>>
       MorseReceiver::getDecoded( )
 {
    // return signal and set it to empty vector
    std::vector<std::pair<MorseCodec::MorseCodec::Signal,float>> ret;
    swap( signals, ret );
+   charIsReady = false;
    return ret;
 }

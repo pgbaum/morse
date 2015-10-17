@@ -28,12 +28,25 @@ void testCodecOK( char c )
    std::cout << '\n';
 }
 
+void testCodecKO( const std::string &s )
+{
+   std::cout << s << ": ";
+   const auto signal = MorseCodec::stringToSignal( "_.___" );
+   const auto dec = MorseCodec::decode( signal, NULL );
+   if( dec == MorseCodec::invalidChar )
+      std::cout << " failed OK\n";
+   else
+      std::cout << " ERROR\n";
+}
+
 void testCodec( )
 {
    std::cout << "Codec test\n";
    testCodecOK( ' ' );
    for( char c = 'A';  c <= 'Z'; ++c )
       testCodecOK( c );
+
+   testCodecKO( "_.___" );
 }
 
 void testReceiverOK( char c )

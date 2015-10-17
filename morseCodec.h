@@ -21,6 +21,7 @@ public:
    {
       return s.empty() ? 0 : decode( s.data(), (int)s.size(), next );
    }
+   static std::string decode( const std::vector<Signal> &s );
 
    static std::vector<Signal> encode( char c );
 
@@ -29,6 +30,7 @@ public:
       return s.empty() ? std::string() : toString( s.data(), (int)s.size() );
    }
    static std::string toString( const Signal *ps, int length );
+   static std::vector<Signal> stringToSignal( const std::string &s );
 
 private:
    typedef char Encoded_type;

@@ -10,10 +10,11 @@ public:
    MorseReceiver();
 
    bool isOn( void ) const;
-   void setState( bool on );
+   std::pair<MorseCodec::Signal,float> setState( bool on );
 
    void setTickTime( int ms );
    int getTickTime( void ) const;
+   int getCharSpaceTime( void ) const;
 
    bool isCharReady( void ) const;
    std::vector<std::pair<MorseCodec::Signal,float>> getDecoded( );

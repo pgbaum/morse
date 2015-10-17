@@ -1,6 +1,7 @@
 
 #include "morseCodec.h"
 #include <algorithm>
+#include <stdexcept>
 
 char MorseCodec::decode( const Signal *ps, int length, const Signal **next )
 {
@@ -102,6 +103,24 @@ exitLoop:
    return encToChar[idx];
 }
 
+std::string MorseCodec::decode( const std::vector<Signal> &s )
+{
+   std::string ret;
+   if( !s.empty() )
+   {
+      const Signal *sp = s.data();
+      int len = (int)s.size();
+      while( len > 0 )
+      {
+         const Signal *next;
+         ret.push_back( decode( sp, len, &next ) );
+         len -= next - sp;
+         sp = next;
+      }
+   }
+   return ret;
+}
+
 std::vector<MorseCodec::Signal> MorseCodec::encode( char c )
 {
    const Encoded_type charToEnc[] =
@@ -179,3 +198,21 @@ std::string MorseCodec::toString( const Signal *ps, int length )
    }
    return ret;
 }
+
+std::vector<MorseCodec::Signal> MorseCodec::stringToSignal(
+      const std::string &s )
+{
+   std::vector<Signal> sig;
+   for( char c : s )
+   {
+      switch( c )
+      {
+         case '.': sig.push_back( DOT ); break;
+         case '_': sig.push_back( DASH ); break;
+         case ' ': sig.push_back( LETTER_SPACE ); break;
+         default:  throw std::invalid_argument( "Invalid character." );
+      }
+   }
+   return sig;
+}
+
