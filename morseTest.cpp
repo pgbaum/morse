@@ -37,6 +37,7 @@ void testCodecKO( const std::string &s )
       std::cout << " failed OK\n";
    else
       std::cout << " ERROR\n";
+   const std::string str = MorseCodec::decode( signal );
 }
 
 void testCodec( )
@@ -46,6 +47,10 @@ void testCodec( )
    for( char c = 'A';  c <= 'Z'; ++c )
       testCodecOK( c );
 
+   testCodecKO( "._._" );
+   testCodecKO( "___." );
+   testCodecKO( "____" );
+   testCodecKO( "....." );
    testCodecKO( "_.___" );
 }
 

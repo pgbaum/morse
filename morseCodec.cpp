@@ -85,10 +85,10 @@ char MorseCodec::decode( const Signal *ps, int length, const Signal **next )
                   case NONE:
                   case WORD_SPACE:
                   case LETTER_SPACE:
-                              *next = ps + read + 1;
                               break;
                   default:    ;
                }
+            *next = ps + read;
          }
          return invalidChar;
       }
