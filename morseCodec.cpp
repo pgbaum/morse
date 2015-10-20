@@ -177,6 +177,36 @@ std::vector<MorseCodec::Signal> MorseCodec::encode( char c )
    return ret;
 }
 
+std::vector<MorseCodec::Signal> MorseCodec::encode( const std::string &str )
+{
+   std::vector<MorseCodec::Signal> sig;
+
+   int sz = (int)str.size();
+   for( int k = 0; k < sz; ++k )
+   {
+      std::vector<MorseCodec::Signal> s = encode( str[k] );
+      sig.insert( sig.end(), s.begin(), s.end() );
+      if( k != sz - 1 && str[k] != ' ' && str[k+1] != ' ' )
+         sig.push_back( LETTER_SPACE );
+   }
+
+   return sig;
+}
+
+const char *MorseCodec::toText( Signal s )
+{
+   switch( s )
+   {
+      case NONE:         return "NONE"; break;
+      case DASH:         return "_"; break;
+      case DOT:          return "."; break;
+      case DOT_SPACE:    return "DotSpace"; break;
+      case LETTER_SPACE: return "NewLetter"; break;
+      case WORD_SPACE:   return "' '";
+   }
+   return NULL;
+}
+
 std::string MorseCodec::toString( const Signal *ps, int length )
 {
    std::string ret;

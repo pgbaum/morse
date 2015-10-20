@@ -8,11 +8,6 @@
 class MorseCodec
 {
 public:
-   /*
-    * Each element is implicetely followed by a space of 1 unit.
-    * That means that at the end of a character there have to be 2 SPACE
-    * and at the end of word there have to be 6 SPACE
-    */
    typedef enum { NONE, DASH, DOT, DOT_SPACE, LETTER_SPACE, WORD_SPACE } Signal;
    static const char invalidChar = CHAR_MAX;
 
@@ -24,7 +19,9 @@ public:
    static std::string decode( const std::vector<Signal> &s );
 
    static std::vector<Signal> encode( char c );
+   static std::vector<Signal> encode( const std::string &str );
 
+   static const char *toText( Signal s );
    static std::string toString( const std::vector<Signal> &s )
    {
       return s.empty() ? std::string() : toString( s.data(), (int)s.size() );

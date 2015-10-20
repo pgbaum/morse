@@ -1,28 +1,16 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include "morseReceiver.h"
+#include "morseGdkTransmitter.h"
 #include <iostream>
 #include <iomanip>
 
 guint timer;
-
-const char *sigToString( MorseCodec::Signal sig )
-{
-   switch( sig )
-   {
-      case MorseCodec::DOT:          return ".";
-      case MorseCodec::DASH:         return "_";
-      case MorseCodec::DOT_SPACE:    return "DotSpace";
-      case MorseCodec::LETTER_SPACE: return "NewLetter";
-      case MorseCodec::WORD_SPACE:   return "' '";
-      case MorseCodec::NONE:         ; // break through
-   }
-   return "None";
-}
+MorseGdkTransmitter transmitter;
 
 void printSig( const std::pair<MorseCodec::Signal,float> &sig )
 {
-   std::cout << "Signal: " << sigToString( sig.first )
+   std::cout << "Signal: " << MorseCodec::toText( sig.first )
          << " "
          << std::fixed << std::fixed << std::setprecision(1)
          << sig.second << '\n';
@@ -38,10 +26,12 @@ void decode( MorseReceiver *receiver )
       {
          sig.push_back( dec.first );
          if( dec.first != MorseCodec::DOT_SPACE )
-            std::cout << sigToString( dec.first ) << " ";
+            std::cout << MorseCodec::toText( dec.first ) << " ";
       }
       auto dec = MorseCodec::decode( sig );
       std::cout << ": '" << dec << "'\n";
+      transmitter.setTickTime( receiver->getTickTime() );
+      transmitter.send( dec );
    }
 }
 
