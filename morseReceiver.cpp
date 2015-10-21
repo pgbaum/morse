@@ -79,7 +79,7 @@ std::pair<MorseCodec::Signal,float> MorseReceiver::setState( bool on )
             charIsReady = (sig.first == MorseCodec::LETTER_SPACE
                   || sig.first == MorseCodec::WORD_SPACE);
          }
-         signals.push_back( sig );
+         signals.push_back( sig.first );
       }
       timeStateChanged = now;
       stateIsOn = on;
@@ -102,11 +102,10 @@ int MorseReceiver::getCharSpaceTime( void ) const
    return 3 * tickTime;
 }
 
-std::vector<std::pair<MorseCodec::MorseCodec::Signal,float>>
-      MorseReceiver::getDecoded( )
+std::vector<MorseCodec::Signal> MorseReceiver::getDecoded( )
 {
    // return signal and set it to empty vector
-   std::vector<std::pair<MorseCodec::MorseCodec::Signal,float>> ret;
+   std::vector<MorseCodec::Signal> ret;
    swap( signals, ret );
    charIsReady = false;
    return ret;

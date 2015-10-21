@@ -17,14 +17,14 @@ public:
    int getCharSpaceTime( void ) const;
 
    bool isCharReady( void ) const;
-   std::vector<std::pair<MorseCodec::Signal,float>> getDecoded( );
+   std::vector<MorseCodec::Signal> getDecoded( );
 
 private:
    bool stateIsOn;
    bool charIsReady;
    int tickTime;
    std::chrono::time_point<std::chrono::steady_clock> timeStateChanged;
-   std::vector<std::pair<MorseCodec::Signal,float>> signals;
+   std::vector<MorseCodec::Signal> signals;
 };
 
 #endif

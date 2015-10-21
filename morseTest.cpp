@@ -84,9 +84,7 @@ void testReceiverOK( char c )
       std::this_thread::sleep_for( std::chrono::milliseconds( ms ) );
    }
    std::this_thread::sleep_for( std::chrono::milliseconds( 2 * ms ) );
-   std::vector<MorseCodec::Signal> sig;
-   for( auto dec : mr.getDecoded() )
-      sig.push_back( dec.first );
+   std::vector<MorseCodec::Signal> sig( mr.getDecoded() );
 
    std::cout << '\'' << MorseCodec::toString( sig ) << "' ";
 
@@ -116,9 +114,7 @@ void testTransmitterOK( char c  )
    while( tt.sendNextSignal( ) )
       ;
 
-   std::vector<MorseCodec::Signal> sig;
-   for( auto dec : receiver.getDecoded() )
-      sig.push_back( dec.first );
+   std::vector<MorseCodec::Signal> sig( receiver.getDecoded() );
 
    std::cout << '\'' << MorseCodec::toString( sig ) << "' ";
 

@@ -20,13 +20,12 @@ void decode( MorseReceiver *receiver )
 {
    if( receiver->isCharReady() )
    {
-      std::vector<MorseCodec::Signal> sig;
       std::cout << "Decoded: ";
-      for( auto dec : receiver->getDecoded() )
+      std::vector<MorseCodec::Signal> sig( receiver->getDecoded() );
+      for( auto dec : sig )
       {
-         sig.push_back( dec.first );
-         if( dec.first != MorseCodec::DOT_SPACE )
-            std::cout << MorseCodec::toText( dec.first ) << " ";
+         if( dec != MorseCodec::DOT_SPACE )
+            std::cout << MorseCodec::toText( dec ) << " ";
       }
       auto dec = MorseCodec::decode( sig );
       std::cout << ": '" << dec << "'\n";
