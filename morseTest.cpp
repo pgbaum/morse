@@ -1,8 +1,23 @@
 
 #include "morseCodec.h"
 #include "morseReceiver.h"
+#include "morseTransmitter.h"
 #include <iostream>
 #include <thread>
+
+class TestTransmitter : public MorseTransmitter
+{
+public:
+   TestTransmitter( MorseReceiver &r ) : receiver( r ) {}
+   void setState( bool on, int ms )
+   {
+      receiver.setState( on );
+      std::this_thread::sleep_for( std::chrono::milliseconds( ms ) );
+   }
+
+private:
+   MorseReceiver &receiver;
+};
 
 void testCodecOK( char c )
 {
@@ -90,11 +105,46 @@ void testReceiver( )
       testReceiverOK( c );
 }
 
+void testTransmitterOK( char c  )
+{
+   std::cout << '\'' << c << "': ";
+   MorseReceiver receiver;
+   TestTransmitter tt( receiver );
+   std::string str( 1, c );
+   tt.send( str + " " );
+
+   while( tt.sendNextSignal( ) )
+      ;
+
+   std::vector<MorseCodec::Signal> sig;
+   for( auto dec : receiver.getDecoded() )
+      sig.push_back( dec.first );
+
+   std::cout << '\'' << MorseCodec::toString( sig ) << "' ";
+
+   const char cDec = MorseCodec::decode( sig, NULL );
+   if( cDec == c )
+      std::cout << "OK";
+   else
+      std::cout << "could not decode  != '" << cDec << "'";
+
+   std::cout << '\n';
+}
+void testTransmitter( )
+{
+   std::cout << "Transmitter test\n";
+   for( char c = 'A';  c <= 'Z'; ++c )
+      testTransmitterOK( c );
+}
+
 int main( void )
 {
+
    testCodec();
    std::cout << '\n';
    testReceiver();
+   std::cout << '\n';
+   testTransmitter();
 
    return 0;
 }
