@@ -186,7 +186,7 @@ std::vector<MorseCodec::Signal> MorseCodec::encode( const std::string &str )
    {
       std::vector<MorseCodec::Signal> s = encode( str[k] );
       sig.insert( sig.end(), s.begin(), s.end() );
-      if( k != sz - 1 && str[k] != ' ' && str[k+1] != ' ' )
+      if( str[k] != ' ' && str[k+1] != ' ' )
          sig.push_back( LETTER_SPACE );
    }
 
