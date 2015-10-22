@@ -72,8 +72,9 @@ void testCodec( )
 void testReceiverOK( char c )
 {
    std::cout << '\'' << c << "': ";
+   const int ms = 30;
    MorseReceiver mr;
-   const int ms = mr.getTickTime();
+   mr.setTickTime( ms );
 
    for( auto s : MorseCodec::encode( c ) )
    {
@@ -96,6 +97,7 @@ void testReceiverOK( char c )
 
    std::cout << '\n';
 }
+
 void testReceiver( )
 {
    std::cout << "Receiver test\n";
@@ -105,11 +107,15 @@ void testReceiver( )
 
 void testTransmitterOK( char c  )
 {
+   const int ms = 30;
+
    std::cout << '\'' << c << "': ";
    MorseReceiver receiver;
    TestTransmitter tt( receiver );
-   std::string str( 1, c );
-   tt.send( str + " " );
+   receiver.setTickTime( ms );
+   tt.setTickTime( ms );
+
+   tt.send( std::string( { c } ) );
 
    while( tt.sendNextSignal( ) )
       ;
