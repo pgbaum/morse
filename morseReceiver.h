@@ -7,8 +7,6 @@
 class MorseReceiver
 {
 public:
-   MorseReceiver();
-
    bool isOn( void ) const;
    std::pair<MorseCodec::Signal,float> setState( bool on );
 
@@ -20,9 +18,9 @@ public:
    std::vector<MorseCodec::Signal> getDecoded( );
 
 private:
-   bool stateIsOn;
-   bool charIsReady;
-   int tickTime;
+   bool stateIsOn = false;
+   bool charIsReady = false;
+   int tickTime = 60;
    std::chrono::time_point<std::chrono::steady_clock> timeStateChanged;
    std::vector<MorseCodec::Signal> signals;
 };

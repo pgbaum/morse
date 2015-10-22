@@ -1,7 +1,5 @@
 #include "morseReceiver.h"
 
-#include <iostream>
-
 namespace
 {
    using TimePoint = std::chrono::time_point<std::chrono::steady_clock>;
@@ -36,14 +34,6 @@ namespace
       // will never be reached
       return std::make_pair( MorseCodec::NONE, .0f );
    }
-}
-
-
-MorseReceiver::MorseReceiver( ) :
-   stateIsOn( false ),
-   charIsReady( false ),
-   tickTime( 60 )
-{
 }
 
 bool MorseReceiver::isOn( void ) const
