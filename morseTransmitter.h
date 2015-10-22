@@ -7,10 +7,10 @@ class MorseTransmitter
 {
 public:
 
-   MorseTransmitter();
-   virtual ~MorseTransmitter();
+   virtual ~MorseTransmitter() = default;
 
    void setTickTime( int ms );
+   int getTickTime( ) const;
 
    void send( const std::vector<MorseCodec::Signal> &sig );
    void send( const std::string &sig );
@@ -25,8 +25,8 @@ protected:
 
 private:
    std::vector<MorseCodec::Signal> signal;
-   int tickTime;
-   MorseCodec::Signal lastSignal;
+   int tickTime = 60;
+   MorseCodec::Signal lastSignal = MorseCodec::NONE;
 };
 
 #endif

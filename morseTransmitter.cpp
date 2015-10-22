@@ -1,18 +1,13 @@
 #include "morseTransmitter.h"
 
-MorseTransmitter::MorseTransmitter() :
-   tickTime( 100 ),
-   lastSignal( MorseCodec::NONE )
-{
-}
-
-MorseTransmitter::~MorseTransmitter()
-{
-}
-
 void MorseTransmitter::setTickTime( int ms )
 {
    tickTime = ms;
+}
+
+int MorseTransmitter::getTickTime( ) const
+{
+   return tickTime;
 }
 
 void MorseTransmitter::send( const std::vector<MorseCodec::Signal> &sig )
@@ -36,7 +31,7 @@ bool MorseTransmitter::sendNextSignal( void )
       signal.pop_back();
 
    if( signal.empty() )
-      return 0;
+      return false;
 
    MorseCodec::Signal s = signal.back();
 
@@ -59,5 +54,5 @@ bool MorseTransmitter::sendNextSignal( void )
       case MorseCodec::WORD_SPACE:   setState( false, 7 * tickTime ); break;
       case MorseCodec::NONE:         ; // ignore
    }
-   return !signal.empty();
+   return true;
 }
