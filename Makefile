@@ -9,6 +9,8 @@ MORSEFILES= morseCodec.o \
 FILES=morseTest.o $(MORSEFILES)
 
 GTKFILES=morse.o $(MORSEFILES) \
+      eventServer.o \
+      echoServer.o \
       morseGdkTransmitter.o
 
 all: morseTest morse
