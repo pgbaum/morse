@@ -1,28 +1,19 @@
 #ifndef ECHO_SERVER_H_INCLUDED
 #define ECHO_SERVER_H_INCLUDED
 
-#include "eventServer.h"
-#include "morseReceiver.h"
+#include "receiverServer.h"
 #include "morseGdkTransmitter.h"
 
-
-class EchoServer : public EventServer
+class EchoServer : public ReceiverServer
 {
 public:
    EchoServer( GtkWidget *window );
 
-   void setTickTime( int ms );
-   int getTickTime( void ) const;
-
-   void keyPress( GdkEventKey *event );
-   void keyRelease( GdkEventKey *event );
-   void timeOut( );
-
-private:
+protected:
    void decode( void );
 
+private:
    MorseGdkTransmitter transmitter;
-   MorseReceiver receiver;
 };
 
 #endif
