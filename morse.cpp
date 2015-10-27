@@ -1,4 +1,5 @@
 #include "echoServer.h"
+#include "transmitterTrainer.h"
 
 int main( int argc, char *argv[] )
 {
@@ -9,7 +10,8 @@ int main( int argc, char *argv[] )
    g_signal_connect( G_OBJECT( window ), "destroy",
       G_CALLBACK( gtk_main_quit ), NULL );
 
-   EchoServer server( window );
+   // EchoServer server( window );
+   TransmitterTrainer server( 2, window );
    server.setTickTime( 100 );
 
    gtk_widget_show_all( window );

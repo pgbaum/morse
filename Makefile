@@ -12,7 +12,8 @@ GTKFILES=morse.o $(MORSEFILES) \
       echoServer.o \
       eventServer.o \
       morseGdkTransmitter.o \
-      receiverServer.o
+      receiverServer.o \
+      transmitterTrainer.o
 
 all: morseTest morse
 
