@@ -16,6 +16,9 @@ void MorseTransmitter::send( const std::vector<MorseCodec::Signal> &sig )
    // signal is reversed
    signal.assign( sig.rbegin(), sig.rend() );
 
+   // stop current transmission if any
+   cancelTransmission();
+
    sendNextSignal();
 }
 

@@ -15,6 +15,8 @@ public:
    void send( const std::vector<MorseCodec::Signal> &sig );
    void send( const std::string &sig );
 
+   virtual void cancelTransmission( ) {}
+
    // to be called after each state has ended
    // returns 0 if no more signal is to be sent
    bool sendNextSignal( void );

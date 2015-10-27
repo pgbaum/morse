@@ -11,6 +11,9 @@ public:
    ~MorseGdkTransmitter();
 
    void stop( void );
+   void cancelTransmission( );
+
+   void timeoutCalled();
 
 protected:
    // has to call after ms milliseconds sendNextSignal()
@@ -18,6 +21,9 @@ protected:
 
 private:
    GstElement *pipeline;
+   guint timer = 0;
+
+   void cancelTimeout();
 };
 
 #endif

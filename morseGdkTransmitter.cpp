@@ -6,6 +6,7 @@ namespace
    gboolean timeoutFunction( gpointer data )
    {
       MorseGdkTransmitter *transmitter = (MorseGdkTransmitter *)data;
+      transmitter->timeoutCalled();
       transmitter->stop();
       transmitter->sendNextSignal();
       return false;
@@ -22,7 +23,28 @@ MorseGdkTransmitter::MorseGdkTransmitter()
 
 MorseGdkTransmitter::~MorseGdkTransmitter()
 {
+   cancelTransmission();
    gst_object_unref( pipeline );
+}
+
+void MorseGdkTransmitter::cancelTransmission( )
+{
+   stop();
+   cancelTimeout();
+}
+
+void MorseGdkTransmitter::timeoutCalled()
+{
+   timer = 0;
+}
+
+void MorseGdkTransmitter::cancelTimeout()
+{
+   if( timer )
+   {
+      g_source_remove( timer );
+      timer = 0;
+   }
 }
 
 void MorseGdkTransmitter::stop( )
@@ -32,7 +54,7 @@ void MorseGdkTransmitter::stop( )
 
 void MorseGdkTransmitter::setState( bool on, int ms )
 {
-   g_timeout_add( ms, timeoutFunction, this );
+   timer = g_timeout_add( ms, timeoutFunction, this );
    if( on )
       gst_element_set_state( pipeline, GST_STATE_PLAYING );
 }
