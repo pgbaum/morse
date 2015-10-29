@@ -4,19 +4,22 @@
 #include "receiverServer.h"
 #include "morseGdkTransmitter.h"
 
-class TransmitterTrainer : public ReceiverServer
+class TransmitterTrainer : public ReceiverServer, private MorseGdkTransmitter
 {
 public:
    TransmitterTrainer( int count, GtkWidget *window );
 
+   // to avoid ambiguous call to setTickTime() in main program
+   void setTickTime( int ms ) { ReceiverServer::setTickTime( ms ); }
+
 protected:
    void decode( void );
+   void transmissionDone( void );
 
 private:
-   MorseGdkTransmitter transmitter;
    std::string orig;
    int count = 1;
-   bool inRepeat = false;
+   enum {NONE, FOUND, IN_REPEAT } state = NONE;
 
    void fillString( );
 };

@@ -13,11 +13,13 @@ public:
    void stop( void );
    void cancelTransmission( );
 
+   // has to be public since it is called by the callback
    void timeoutCalled();
 
 protected:
    // has to call after ms milliseconds sendNextSignal()
    void setState( bool on, int ms );
+   virtual void transmissionDone( void ) {}
 
 private:
    GstElement *pipeline;

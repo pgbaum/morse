@@ -7,8 +7,6 @@ namespace
    {
       MorseGdkTransmitter *transmitter = (MorseGdkTransmitter *)data;
       transmitter->timeoutCalled();
-      transmitter->stop();
-      transmitter->sendNextSignal();
       return false;
    }
 }
@@ -36,6 +34,9 @@ void MorseGdkTransmitter::cancelTransmission( )
 void MorseGdkTransmitter::timeoutCalled()
 {
    timer = 0;
+   stop();
+   if( sendNextSignal() == false )
+      transmissionDone();
 }
 
 void MorseGdkTransmitter::cancelTimeout()
