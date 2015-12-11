@@ -1,5 +1,5 @@
 \documentclass[12pt]{report}
-\usepackage[a4paper,landscape]{geometry}
+\usepackage[a4paper,landscape,margin=15mm]{geometry}
 \usepackage{tikz}
 
 \renewcommand*{\familydefault}{\sfdefault}
@@ -37,7 +37,7 @@
    };
 \end{tikzpicture}
 
-\vspace{2cm}
+\vspace{3em}
 
 \begin{tikzpicture}[level distance=15mm,
       level/.style={sibling distance=120mm/#1}]
@@ -62,4 +62,21 @@
       } 
    };
 \end{tikzpicture}
+
+\vspace{4em}
+
+\begin{tabular}{ll@{\hspace{2em}}ll@{\hspace{2em}}ll}
+E&\dt           & A&\dt\ds       & A&\dt\ds       \\
+I&\dt\dt        & U&\dt\dt\ds    & W&\dt\ds\ds    \\
+S&\dt\dt\dt     & V&\dt\dt\dt\ds & J&\dt\ds\ds\ds \\
+H&\dt\dt\dt\dt  &  &             &  &
+\end{tabular}
+\hspace{10em}
+\begin{tabular}{ll@{\hspace{2em}}ll@{\hspace{2em}}ll@{\hspace{2em}}ll}
+T&\ds       & N&\ds\dt       & N&\ds\dt \\
+M&\ds\ds    & D&\ds\dt\dt    & G&\ds\ds\dt\\
+O&\ds\ds\ds & B&\ds\dt\dt\dt &  & \\
+ &          &  &             &  &
+\end{tabular}
+
 \end{document}
