@@ -29,7 +29,7 @@ namespace
          else if( len < 5 )
             return std::make_pair( MorseCodec::LETTER_SPACE, len / 3 );
          else
-            return std::make_pair( MorseCodec::WORD_SPACE, len / 3 );
+            return std::make_pair( MorseCodec::WORD_SPACE, len / 7 );
       }
       // will never be reached
       return std::make_pair( MorseCodec::NONE, .0f );
