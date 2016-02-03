@@ -19,6 +19,7 @@ protected:
 private:
    std::string orig;
    int count = 1;
+   int num = 0;
    enum {NONE, FOUND, IN_REPEAT } state = NONE;
 
    void fillString( );

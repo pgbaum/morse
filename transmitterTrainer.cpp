@@ -61,6 +61,6 @@ void TransmitterTrainer::fillString( )
       const int rand = std::rand() % numVal;
       orig.push_back( 'A' + rand );
    }
-   std::cout << "New string to send: " << orig << '\n';
+   std::cout << "String #" << ++num <<" to send: " << orig << '\n';
    state = NONE;
 }
