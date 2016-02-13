@@ -1,4 +1,7 @@
 *.o
 *.swp
+*.aux
+*.log
 morse
 morseTest
+doc/morseCode.pdf
