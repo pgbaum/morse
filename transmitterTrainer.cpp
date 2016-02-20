@@ -5,10 +5,22 @@
 #include <cstdlib>
 
 TransmitterTrainer::TransmitterTrainer( int cc, GtkWidget *window )
-      : ReceiverServer( window ), count( cc )
+      : ReceiverServer( window ), count( cc ),
+      start( std::chrono::steady_clock::now() )
 {
    std::srand( std::time( NULL ) );
    fillString();
+   transmissionDone();
+}
+
+void TransmitterTrainer::printStat( ) const
+{
+   auto duration = std::chrono::duration_cast<std::chrono::seconds>(
+         std::chrono::steady_clock::now() - start );
+   std::cout << " - "
+         << duration.count() / 60 << ":"
+         << std::setfill('0') << std::setw( 2 ) << duration.count() % 60;
+   std::cout << ": " << num << " messages, " << numWrong << " errors\n";
 }
 
 void TransmitterTrainer::decode( )
@@ -23,24 +35,28 @@ void TransmitterTrainer::decode( )
             std::cout << MorseCodec::toText( dec ) << " ";
       }
       auto dec = MorseCodec::decode( sig );
-      std::cout << ": '" << dec << "'\n";
+      std::cout << ": '" << dec << "'\nPlaying: " << orig << ": ";
       dec.erase( 0, dec.find_first_not_of(' ') );
+
       if( dec == orig )
       {
          if( state == NONE )
          {
             state = FOUND;
-            std::cout << "Correct, send it one more time: "
-                  << orig << '\n';
+            std::cout << "Correct, send it one more time";
          }
          else
          {
-            std::cout << "Correct, that was: " << orig << '\n';
+            std::cout << "Correct";
             state = IN_REPEAT;
          }
       }
       else
-         std::cout << "This was wrong. Listen to it again: " << orig << '\n';
+      {
+         ++numWrong;
+         std::cout << "Wrong";
+      }
+      printStat();
       MorseTransmitter::setTickTime( receiver.getTickTime() );
       send( orig );
    }
@@ -50,6 +66,7 @@ void TransmitterTrainer::transmissionDone( )
 {
    if( state == IN_REPEAT )
       fillString();
+   std::cout << "To send: " << orig << '\n';
 }
 
 void TransmitterTrainer::fillString( )
@@ -61,6 +78,6 @@ void TransmitterTrainer::fillString( )
       const int rand = std::rand() % numVal;
       orig.push_back( 'A' + rand );
    }
-   std::cout << "String #" << ++num <<" to send: " << orig << '\n';
+   ++num;
    state = NONE;
 }

@@ -3,6 +3,7 @@
 
 #include "receiverServer.h"
 #include "morseGdkTransmitter.h"
+#include <chrono>
 
 class TransmitterTrainer : public ReceiverServer, private MorseGdkTransmitter
 {
@@ -20,9 +21,12 @@ private:
    std::string orig;
    int count = 1;
    int num = 0;
+   int numWrong = 0;
+   std::chrono::time_point<std::chrono::steady_clock> start;
    enum {NONE, FOUND, IN_REPEAT } state = NONE;
 
    void fillString( );
+   void printStat( ) const;
 };
 
 #endif
