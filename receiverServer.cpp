@@ -12,6 +12,9 @@ void ReceiverServer::printSig( const std::pair<MorseCodec::Signal,float> &sig )
 
 ReceiverServer::ReceiverServer( GtkWidget *window ) : EventServer( window )
 {
+   pipeline = gst_parse_launch(
+         "audiotestsrc freq=800 ! audioconvert ! audioresample ! autoaudiosink",
+         NULL );
 }
 
 void ReceiverServer::setTickTime( int ms )
@@ -35,6 +38,7 @@ void ReceiverServer::keyPress( GdkEventKey *event )
    cancelTimeout( );
 
    auto sig = receiver.setState( 1 );
+   gst_element_set_state( pipeline, GST_STATE_PLAYING );
    printSig( sig );
 }
 
@@ -43,6 +47,7 @@ void ReceiverServer::keyRelease( GdkEventKey *event )
    cancelTimeout( );
 
    auto sig = receiver.setState( 0 );
+   gst_element_set_state( pipeline, GST_STATE_NULL );
 
    startTimeout( receiver.getCharSpaceTime( ) * 15 / 10 );
 

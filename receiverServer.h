@@ -3,6 +3,7 @@
 
 #include "eventServer.h"
 #include "morseReceiver.h"
+#include <gst/gst.h>
 
 class ReceiverServer : public EventServer
 {
@@ -21,6 +22,9 @@ public:
 protected:
    virtual void decode( void ) = 0;
    MorseReceiver receiver;
+
+private:
+   GstElement *pipeline;
 };
 
 #endif

@@ -13,7 +13,6 @@ namespace
 
 MorseGdkTransmitter::MorseGdkTransmitter()
 {
-   gst_init( NULL, NULL );
    pipeline = gst_parse_launch(
          "audiotestsrc freq=800 ! audioconvert ! audioresample ! autoaudiosink",
          NULL );
