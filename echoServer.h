@@ -1,10 +1,10 @@
 #ifndef ECHO_SERVER_H_INCLUDED
 #define ECHO_SERVER_H_INCLUDED
 
-#include "receiverServer.h"
+#include "morseGdkReceiver.h"
 #include "morseGdkTransmitter.h"
 
-class EchoServer : public ReceiverServer
+class EchoServer : public MorseGdkReceiver
 {
 public:
    EchoServer( GtkWidget *window );

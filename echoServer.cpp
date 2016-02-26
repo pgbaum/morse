@@ -2,7 +2,7 @@
 #include <iostream>
 #include <iomanip>
 
-EchoServer::EchoServer( GtkWidget *window ) : ReceiverServer( window )
+EchoServer::EchoServer( GtkWidget *window ) : MorseGdkReceiver( window )
 {
 }
 

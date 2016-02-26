@@ -1,8 +1,9 @@
-#include "receiverServer.h"
+#include "morseGdkReceiver.h"
 #include <iostream>
 #include <iomanip>
 
-void ReceiverServer::printSig( const std::pair<MorseCodec::Signal,float> &sig )
+void MorseGdkReceiver::printSig(
+      const std::pair<MorseCodec::Signal,float> &sig )
 {
    std::cout << "Signal: " << MorseCodec::toText( sig.first )
          << " "
@@ -10,30 +11,30 @@ void ReceiverServer::printSig( const std::pair<MorseCodec::Signal,float> &sig )
          << sig.second << '\n';
 }
 
-ReceiverServer::ReceiverServer( GtkWidget *window ) : EventServer( window )
+MorseGdkReceiver::MorseGdkReceiver( GtkWidget *window ) : EventServer( window )
 {
    pipeline = gst_parse_launch(
          "audiotestsrc freq=800 ! audioconvert ! audioresample ! autoaudiosink",
          NULL );
 }
 
-void ReceiverServer::setTickTime( int ms )
+void MorseGdkReceiver::setTickTime( int ms )
 {
    receiver.setTickTime( ms );
 }
 
-int ReceiverServer::getTickTime( void ) const
+int MorseGdkReceiver::getTickTime( void ) const
 {
    return receiver.getTickTime( );
 }
 
-void ReceiverServer::timeOut(  )
+void MorseGdkReceiver::timeOut(  )
 {
    decode( );
    cancelTimeout( );
 }
 
-void ReceiverServer::keyPress( GdkEventKey *event )
+void MorseGdkReceiver::keyPress( GdkEventKey *event )
 {
    cancelTimeout( );
 
@@ -42,7 +43,7 @@ void ReceiverServer::keyPress( GdkEventKey *event )
    printSig( sig );
 }
 
-void ReceiverServer::keyRelease( GdkEventKey *event )
+void MorseGdkReceiver::keyRelease( GdkEventKey *event )
 {
    cancelTimeout( );
 

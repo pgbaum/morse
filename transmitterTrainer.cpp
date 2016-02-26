@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 TransmitterTrainer::TransmitterTrainer( int cc, GtkWidget *window )
-      : ReceiverServer( window ), count( cc ),
+      : MorseGdkReceiver( window ), count( cc ),
       start( std::chrono::steady_clock::now() )
 {
    std::srand( std::time( NULL ) );

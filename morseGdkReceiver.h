@@ -1,16 +1,16 @@
-#ifndef RECEIVER_SERVER_H_INCLUDED
-#define RECEIVER_SERVER_H_INCLUDED
+#ifndef MORSE_GDK_RECEIVER_H_INCLUDED
+#define MORSE_GDK_RECEIVER_H_INCLUDED
 
 #include "eventServer.h"
 #include "morseReceiver.h"
 #include <gst/gst.h>
 
-class ReceiverServer : public EventServer
+class MorseGdkReceiver : public EventServer
 {
 public:
    static void printSig( const std::pair<MorseCodec::Signal,float> &sig );
 
-   ReceiverServer( GtkWidget *window );
+   MorseGdkReceiver( GtkWidget *window );
 
    void setTickTime( int ms );
    int getTickTime( void ) const;
