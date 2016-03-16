@@ -4,8 +4,8 @@
 #include <ctime>
 #include <cstdlib>
 
-TransmitterTrainer::TransmitterTrainer( int cc, GtkWidget *window )
-      : MorseGdkReceiver( window ), signalLength( cc ),
+TransmitterTrainer::TransmitterTrainer( int sl, int nr, GtkWidget *window )
+      : MorseGdkReceiver( window ), signalLength( sl ), numRepeat( nr ),
       start( std::chrono::steady_clock::now() )
 {
    std::srand( std::time( NULL ) );
@@ -40,22 +40,17 @@ void TransmitterTrainer::decode( )
 
       if( dec == orig )
       {
-         if( state == NONE )
-         {
-            state = FOUND;
-            std::cout << "Correct, send it one more time";
-         }
-         else
-         {
-            std::cout << "Correct";
-            state = IN_REPEAT;
-         }
+         --actRepeat;
+         std::cout << "Correct";
       }
       else
       {
+         actRepeat = numRepeat + 1;
          ++numWrong;
          std::cout << "Wrong";
       }
+      if( actRepeat > 0 )
+         std::cout << ", send it again " << actRepeat << " times";
       printStat();
       MorseTransmitter::setTickTime( receiver.getTickTime() );
       send( orig );
@@ -64,7 +59,7 @@ void TransmitterTrainer::decode( )
 
 void TransmitterTrainer::transmissionDone( )
 {
-   if( state == IN_REPEAT )
+   if( actRepeat == 0 )
       fillString();
    std::cout << "To send: " << orig << '\n';
 }
@@ -79,5 +74,5 @@ void TransmitterTrainer::fillString( )
       orig.push_back( 'A' + rand );
    }
    ++num;
-   state = NONE;
+   actRepeat = numRepeat;
 }

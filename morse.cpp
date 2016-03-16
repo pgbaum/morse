@@ -14,6 +14,9 @@ int main( int argc, char *argv[] )
    parser.add( &signalLength, "signalLength", "Length of the test signal", false );
    int tickTime = 100;
    parser.add( &tickTime, "tickTime", "Length of a 'dot' in ms", false );
+   int numRepeat = 2;
+   parser.add( &numRepeat, "numRepeat", "Number of repetitons of the same signal",
+         false );
 
    try
    {
@@ -32,7 +35,7 @@ int main( int argc, char *argv[] )
       G_CALLBACK( gtk_main_quit ), NULL );
 
    // EchoServer server( window );
-   TransmitterTrainer server( signalLength, window );
+   TransmitterTrainer server( signalLength, numRepeat, window );
    server.setTickTime( tickTime );
 
    gtk_widget_show_all( window );
