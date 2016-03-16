@@ -8,7 +8,7 @@
 class TransmitterTrainer : public MorseGdkReceiver, private MorseGdkTransmitter
 {
 public:
-   TransmitterTrainer( int count, GtkWidget *window );
+   TransmitterTrainer( int signalLength, GtkWidget *window );
 
    // to avoid ambiguous call to setTickTime() in main program
    void setTickTime( int ms ) { MorseGdkReceiver::setTickTime( ms ); }
@@ -19,7 +19,7 @@ protected:
 
 private:
    std::string orig;
-   int count = 1;
+   int signalLength = 1;
    int num = 0;
    int numWrong = 0;
    std::chrono::time_point<std::chrono::steady_clock> start;

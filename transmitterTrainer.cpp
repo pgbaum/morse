@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 TransmitterTrainer::TransmitterTrainer( int cc, GtkWidget *window )
-      : MorseGdkReceiver( window ), count( cc ),
+      : MorseGdkReceiver( window ), signalLength( cc ),
       start( std::chrono::steady_clock::now() )
 {
    std::srand( std::time( NULL ) );
@@ -73,7 +73,7 @@ void TransmitterTrainer::fillString( )
 {
    const int numVal = 'Z' - 'A' + 1;
    orig.clear();
-   for( int k = 0; k < count; ++k )
+   for( int k = 0; k < signalLength; ++k )
    {
       const int rand = std::rand() % numVal;
       orig.push_back( 'A' + rand );
