@@ -10,6 +10,11 @@ int main( int argc, char *argv[] )
 
    ArgParser parser;
 
+   int signalLength = 2;
+   parser.add( &signalLength, "signalLength", "Length of the test signal", false );
+   int tickTime = 100;
+   parser.add( &tickTime, "tickTime", "Length of a 'dot' in ms", false );
+
    try
    {
       parser.parse( argc, argv );
@@ -27,8 +32,8 @@ int main( int argc, char *argv[] )
       G_CALLBACK( gtk_main_quit ), NULL );
 
    // EchoServer server( window );
-   TransmitterTrainer server( 2, window );
-   server.setTickTime( 100 );
+   TransmitterTrainer server( signalLength, window );
+   server.setTickTime( tickTime );
 
    gtk_widget_show_all( window );
 
