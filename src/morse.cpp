@@ -1,4 +1,4 @@
-#include "argParser/argParser.h"
+#include "../argParser/argParser.h"
 #include "echoServer.h"
 #include "transmitterTrainer.h"
 #include <iostream>
