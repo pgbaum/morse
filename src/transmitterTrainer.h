@@ -14,7 +14,11 @@ public:
    void setTickTime( int ms ) { MorseGdkReceiver::setTickTime( ms ); }
 
 protected:
+   // implementation of MorseGdkReceiver interface
    void decode( void );
+   void gotSignal( const std::pair<MorseCodec::Signal,float> &sig );
+
+   // implementation of MorseGdkTransmitter interface
    void transmissionDone( void );
 
 private:

@@ -8,8 +8,6 @@
 class MorseGdkReceiver : public GtkEventReceiver
 {
 public:
-   static void printSig( const std::pair<MorseCodec::Signal,float> &sig );
-
    MorseGdkReceiver( GtkWidget *window );
 
    void setTickTime( int ms );
@@ -21,6 +19,7 @@ public:
 
 protected:
    virtual void decode( void ) = 0;
+   virtual void gotSignal( const std::pair<MorseCodec::Signal,float> &sig ) = 0;
    MorseReceiver receiver;
 
 private:

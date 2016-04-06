@@ -1,17 +1,4 @@
 #include "morseGdkReceiver.h"
-#include <iostream>
-#include <iomanip>
-
-void MorseGdkReceiver::printSig(
-      const std::pair<MorseCodec::Signal,float> &sig )
-{
-   std::cout << "Signal: "
-         << (sig.first == MorseCodec::DOT_SPACE ? " "
-               : MorseCodec::toText( sig.first ))
-         << " "
-         << std::fixed << std::fixed << std::setprecision(1)
-         << sig.second << '\n';
-}
 
 MorseGdkReceiver::MorseGdkReceiver( GtkWidget *window )
       : GtkEventReceiver( window )
@@ -43,7 +30,7 @@ void MorseGdkReceiver::keyPress( GdkEventKey *event )
 
    auto sig = receiver.setState( 1 );
    gst_element_set_state( pipeline, GST_STATE_PLAYING );
-   printSig( sig );
+   gotSignal( sig );
 }
 
 void MorseGdkReceiver::keyRelease( GdkEventKey *event )
@@ -55,6 +42,6 @@ void MorseGdkReceiver::keyRelease( GdkEventKey *event )
 
    startTimeout( receiver.getCharSpaceTime( ) * 15 / 10 );
 
-   printSig( sig );
+   gotSignal( sig );
 }
 

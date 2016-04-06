@@ -57,6 +57,18 @@ void TransmitterTrainer::decode( )
    }
 }
 
+void TransmitterTrainer::gotSignal(
+      const std::pair<MorseCodec::Signal,float> &sig )
+{
+   std::cout << "Signal: "
+         << (sig.first == MorseCodec::DOT_SPACE ? " "
+               : MorseCodec::toText( sig.first ))
+         << " "
+         << std::fixed << std::fixed << std::setprecision(1)
+         << sig.second << '\n';
+}
+
+
 void TransmitterTrainer::transmissionDone( )
 {
    if( actRepeat == 0 )
