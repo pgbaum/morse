@@ -1,13 +1,13 @@
-#ifndef EVENT_SERVER_H_INCLUDED
-#define EVENT_SERVER_H_INCLUDED
+#ifndef GTK_EVENT_RECEIVER_H_INCLUDED
+#define GTK_EVENT_RECEIVER_H_INCLUDED
 
 #include <gtk/gtk.h>
 
-class EventServer
+class GtkEventReceiver
 {
 public:
-   EventServer( GtkWidget *window );
-   virtual ~EventServer();
+   GtkEventReceiver( GtkWidget *window );
+   virtual ~GtkEventReceiver();
 
    virtual void keyPress( GdkEventKey *event ) = 0;
    virtual void keyRelease( GdkEventKey *event ) = 0;

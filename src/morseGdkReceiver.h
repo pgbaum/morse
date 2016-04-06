@@ -1,11 +1,11 @@
 #ifndef MORSE_GDK_RECEIVER_H_INCLUDED
 #define MORSE_GDK_RECEIVER_H_INCLUDED
 
-#include "eventServer.h"
+#include "gtkEventReceiver.h"
 #include "morseReceiver.h"
 #include <gst/gst.h>
 
-class MorseGdkReceiver : public EventServer
+class MorseGdkReceiver : public GtkEventReceiver
 {
 public:
    static void printSig( const std::pair<MorseCodec::Signal,float> &sig );

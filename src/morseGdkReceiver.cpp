@@ -13,7 +13,8 @@ void MorseGdkReceiver::printSig(
          << sig.second << '\n';
 }
 
-MorseGdkReceiver::MorseGdkReceiver( GtkWidget *window ) : EventServer( window )
+MorseGdkReceiver::MorseGdkReceiver( GtkWidget *window )
+      : GtkEventReceiver( window )
 {
    pipeline = gst_parse_launch(
          "audiotestsrc freq=800 ! audioconvert ! audioresample ! autoaudiosink",
