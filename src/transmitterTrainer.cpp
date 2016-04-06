@@ -60,6 +60,8 @@ void TransmitterTrainer::decode( )
 void TransmitterTrainer::gotSignal(
       const std::pair<MorseCodec::Signal,float> &sig )
 {
+   cancelTransmission();
+
    std::cout << "Signal: "
          << (sig.first == MorseCodec::DOT_SPACE ? " "
                : MorseCodec::toText( sig.first ))
