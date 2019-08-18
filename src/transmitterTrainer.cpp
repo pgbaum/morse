@@ -4,8 +4,9 @@
 #include <ctime>
 #include <cstdlib>
 
-TransmitterTrainer::TransmitterTrainer( int sl, int nr, GtkWidget *window )
-      : MorseGdkReceiver( window ), signalLength( sl ), numRepeat( nr ),
+TransmitterTrainer::TransmitterTrainer( int sl, int nr,
+      const std::string &tl, GtkWidget *window )
+      : MorseGdkReceiver( window ), testLetters( tl), signalLength( sl ), numRepeat( nr ),
       start( std::chrono::steady_clock::now() )
 {
    std::srand( std::time( NULL ) );
@@ -80,12 +81,12 @@ void TransmitterTrainer::transmissionDone( )
 
 void TransmitterTrainer::fillString( )
 {
-   const int numVal = 'Z' - 'A' + 1;
+   const int numVal = static_cast<int>( testLetters.size() );
    orig.clear();
    for( int k = 0; k < signalLength; ++k )
    {
       const int rand = std::rand() % numVal;
-      orig.push_back( 'A' + rand );
+      orig.push_back( testLetters[rand] );
    }
    ++num;
    actRepeat = numRepeat;
