@@ -73,6 +73,24 @@ struct DoubleArg : public ArgParser::Arg
    }
 };
 
+struct StringArg : public ArgParser::Arg
+{
+   std::string *p;
+
+   StringArg( std::string *v, const char *n, const char *d, bool r ) :
+         Arg( n, d, r ), p( v )
+   {
+   }
+   void parse( const std::string &val )
+   {
+      *p = val;
+   }
+   void printDefault( std::ostream &ost )
+   {
+      ost << *p;
+   }
+};
+
 ArgParser::~ArgParser( )
 {
    for( auto p : args )
@@ -89,6 +107,12 @@ void ArgParser::add( double *val, const char *name, const char *descr,
       bool required )
 {
    args.push_back( new DoubleArg{val, name, descr, required} );
+}
+
+void ArgParser::add( std::string *val, const char *name, const char *descr,
+      bool required )
+{
+   args.push_back( new StringArg{val, name, descr, required} );
 }
 
 void ArgParser::parse( int argc, char *argv[] )
